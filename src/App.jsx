@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Form from "./components/Form";
 import Post from "./components/Post";
 
-const urlBaseServer = "http://localhost:3000";
+const urlBaseServer = "http://localhost:3001";
 
 function App() {
   const [titulo, setTitulo] = useState("");
@@ -17,10 +17,16 @@ function App() {
   };
 
   const agregarPost = async () => {
-    const post = { titulo, url: imgSrc, descripcion };
-    await axios.post(urlBaseServer + "/posts", post);
-    getPosts();
+    const post = { titulo, img: imgSrc, descripcion };
+    try {
+      await axios.post(urlBaseServer + "/posts", post);
+      getPosts();
+    } catch (error) {
+      console.error('Error agregando el post:', error);
+      alert('Hubo un error al agregar el post. Inténtalo nuevamente.');
+    }
   };
+  
 
   // este método se utilizará en el siguiente desafío
   const like = async (id) => {
